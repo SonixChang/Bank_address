@@ -14,8 +14,8 @@ import win32con as wc
 import threading
 import bank_address as ba
 
+#Tl.edge()
 
-Tl.edge()
 
 class Threader(threading.Thread):
     def __init__(self, *args, **kwargs):
@@ -28,36 +28,39 @@ class Threader(threading.Thread):
         Execute()
         schedule.stop()
 
+
 def Execute():
     state_Label.config(text = "executing...")
     
-    I_Excel_Path = r'' + I_Excel_Path_Entry.get().strip()
-    O_Excel_Path = r'' + O_Excel_Path_Entry.get().strip()
-    I_data_type = Tl.distinguish_file_type(I_Excel_Path)
-    O_data_type = Tl.distinguish_file_type(O_Excel_Path)
-    Cols_ini = Cols_ini_Entry.get().strip()
-    Cols_fin = Cols_fin_Entry.get().strip()
-    Address = Address_Entry.get().strip()
-    Rows = Rows_Entry.get().strip()
-    Major = Major_Entry.get().strip()
-    Branch = Branch_Entry.get().strip()
-
-    # I_Excel_Path = r"C:\Users\Nick Chang\Desktop\python3\Bank_address\分行地址及經緯度.xlsx"
-    # O_Excel_Path = r"C:\Users\Nick Chang\Desktop\python3\Bank_address\test.csv"
+    # I_Excel_Path = r'' + I_Excel_Path_Entry.get().strip()
+    # O_Excel_Path = r'' + O_Excel_Path_Entry.get().strip()
     # I_data_type = Tl.distinguish_file_type(I_Excel_Path)
     # O_data_type = Tl.distinguish_file_type(O_Excel_Path)
-    # Cols_ini = '1'
-    # Cols_fin = '4'
-    # Address = "分行地址"
-    # Major = Major_Entry.get()
-    # Branch = "分行名稱"
+    # Cols_ini = Cols_ini_Entry.get().strip()
+    # Cols_fin = Cols_fin_Entry.get().strip()
+    # Address = Address_Entry.get().strip()
+    # Rows = Rows_Entry.get().strip()
+    # Major = Major_Entry.get().strip()
+    # Branch = Branch_Entry.get().strip()
+
+    I_Excel_Path = r"C:\Users\Nick Chang\Desktop\python3\Bank_address\分行地址及經緯度.xlsx"
+    O_Excel_Path = r"C:\Users\Nick Chang\Desktop\python3\Bank_address\test.csv"
+    I_data_type = Tl.distinguish_file_type(I_Excel_Path)
+    O_data_type = Tl.distinguish_file_type(O_Excel_Path)
+    Cols_ini = '1'
+    Cols_fin = '4'
+    Address = "分行地址"
+    Major = Major_Entry.get()
+    Branch = "分行名稱"
     
-    sta = ba.Bank_addr(I_Excel_Path, O_Excel_Path, I_data_type, O_data_type, Cols_ini, Cols_fin, Address, Major, Branch, Rows)
+    sta = ba.Bank_addr(I_Excel_Path, O_Excel_Path, I_data_type, O_data_type, Cols_ini, Cols_fin, Address, Major, Branch)
     state_Label.config(text = sta)
+
 
 def Crawler_Single():
     Address = single_address_Entry.get()
     LatLon.set(Tl.web_crawler_and_data_pass_single(Address))
+
 
 def Copy():
     # 開啟複製貼上板
@@ -69,6 +72,7 @@ def Copy():
     wcb.SetClipboardData(wc.CF_TEXT, LatLon.get().encode("gbk"))
     # 關閉複製貼上板
     wcb.CloseClipboard()
+
 
 window = tk.Tk()
 window.title('Convert GoogleMap into LatLon')
@@ -135,7 +139,7 @@ Execute_bt.place(x = 550, y = 450)
 #主視窗迴圈顯示
 window.mainloop()
 
-Tl.close_edge()
+#Tl.close_edge()
 
 
 #未來的改進----------------------------------
@@ -148,6 +152,5 @@ Tl.close_edge()
 #輸入爬蟲列數(不要每次全爬)
 #execut控制只能執行一次
 #平行處理：開啟兩個以上執行緒以及瀏覽器driver進行同時爬蟲
-
 #爬蟲尚未結束不能將輸出檔案開啟(導致無法輸出檔案，資料重爬)，重複嘗試寫入檔案直到成功寫入並輸出檔案
 #pyinstaller -F -w .\GUI.py
